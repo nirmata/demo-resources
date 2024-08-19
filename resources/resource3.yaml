@@ -16,7 +16,7 @@ spec:
         app: nginx3
     spec:
       containers:
-      - image: docker.io/nginxinc/nginx-unprivileged:latest
+      - image: docker.io/nginxinc/nginx-unprivileged:1.21
         name: nginx3
         ports:
         - containerPort: 8080
