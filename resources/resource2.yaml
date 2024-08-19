@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: good-deployment-env-var
+  labels:
+    app: nginx1
+  namespace: kyverno-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx1
+  template:
+    metadata:
+      labels:
+        app: nginx1
+    spec:
+      containers:
+      - image: docker.io/nginxinc/nginx-unprivileged:1.21   #registry.k8s.io/nginx:1.7.9
+        name: nginx
+        ports:
+        - containerPort: 8080
+        securityContext:
+          runAsNonRoot: true
+      #  env:
+      #  - name: USERNAME
+      #    valueFrom:
+      #      secretKeyRef:
+      #        name: prod-db-secret 
+      #        key: username
+      #  - name: PASSWORD
+      #    valueFrom:
+      #      secretKeyRef:
+      #        name: prod-db-secret 
+      #        key: password
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service1
+spec:
+  selector:
+    app: nginx1
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
