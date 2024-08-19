@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gooddeployment-disallow-default
+  name: good-deployment-restrict-image
   labels:
-    app: nginx2
+    app: nginx7
   namespace: kyverno-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx2
+      app: nginx7
   template:
     metadata:
       labels:
-        app: nginx2
+        app: nginx7
     spec:
       containers:
-      - image: docker.io/nginxinc/nginx-unprivileged:1.21
-        name: nginx2
+      - image: docker.io/nginxinc/nginx-unprivileged:1.21   #registry.k8s.io/nginx:1.7.9
         ports:
-        - containerPort: 8080
+        - containerPort: 8080  
+        name: nginx7
         securityContext:
           runAsNonRoot: true
         resources:
@@ -33,10 +33,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service2
+  name: nginx-service7
 spec:
   selector:
-    app: nginx2
+    app: nginx7
   ports:
     - protocol: TCP
       port: 8080

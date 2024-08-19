@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gooddeployment-disallow-default
+  name: good-deployment-labels
   labels:
-    app: nginx2
+    app: nginx5
   namespace: kyverno-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx2
+      app: nginx5
   template:
     metadata:
       labels:
-        app: nginx2
+        app: nginx5
     spec:
       containers:
       - image: docker.io/nginxinc/nginx-unprivileged:1.21
-        name: nginx2
         ports:
         - containerPort: 8080
+        name: nginx5
         securityContext:
           runAsNonRoot: true
         resources:
@@ -33,10 +33,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service2
+  name: nginx-service5
 spec:
   selector:
-    app: nginx2
+    app: nginx5
   ports:
     - protocol: TCP
       port: 8080
