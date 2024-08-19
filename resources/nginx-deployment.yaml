@@ -29,16 +29,3 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "500m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-service2
-spec:
-  selector:
-    app: nginx2
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: LoadBalancer
