@@ -29,3 +29,10 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "500m"
+        volumeMounts:
+        - name: nginx-config-volume
+          mountPath: /test
+      volumes:
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-configmap
